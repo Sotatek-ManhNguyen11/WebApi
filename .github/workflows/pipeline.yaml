@@ -78,15 +78,9 @@ jobs:
         path: ${{github.workspace}}\website\publish
         
     - name: IIS Deploy
-      uses: ChristopheLav/iis-deploy@v1
+      uses: cschleiden/webdeploy-action@v1
       with:
         # IIS website name
-        website-name: 'mitac'
-        # MS Deploy Service URL
-        msdeploy-service-url: 'http://localhost'
-        # Username used by Basic authentication to the MS Deploy Service
-        msdeploy-username: 'admin'
-        # Password used by Basic authentication to the MS Deploy Service
-        msdeploy-password: 'Sotatek@2019'
+        webSiteName: 'mitac'
         # The path to the source directory that will be deployed
-        source-path: ${{github.workspace}}\website\publish
+        package: ${{github.workspace}}\website\publish
