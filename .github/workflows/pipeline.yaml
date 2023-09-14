@@ -55,7 +55,7 @@ jobs:
       run: >- 
         dotnet publish -c Release 
         -o ${{github.workspace}}\website 
-        --no-build --self-contained true 
+        --no-build --self-contained false 
       #run: dotnet publish -c Release /p:WebPublishMethod=Package /p:PackageLocation="${{github.workspace}}\website"
 
     - name: Upload artifact for deployment job
