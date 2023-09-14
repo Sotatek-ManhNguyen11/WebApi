@@ -1,9 +1,5 @@
 # This workflow will build a .NET Core project
 name: .NET Core CI/CD
-env:
-  AZURE_WEBAPP_NAME: your-app-name    # set this to the name of your Azure Web App
-  AZURE_WEBAPP_PACKAGE_PATH: '.'      # set this to the path to your web app project, defaults to the repository root
-  DOTNET_VERSION: '5'                 # set this to the .NET Core version to use
 
 on: 
   push:
@@ -63,6 +59,9 @@ jobs:
         path: ${{github.workspace}}\website
 
   deploy:
+    env:
+      SITE_NAME: mitac
+
     permissions:
       contents: none
     runs-on: self-hosted
@@ -77,16 +76,11 @@ jobs:
         name: publish
         path: ${{github.workspace}}\website
         
-    - name: IIS Deploy
-      uses: ChristopheLav/iis-deploy@v1.0.0
-      with:
-        # IIS website name
-        website-name: 'mitac'
-        # MS Deploy Service URL
-        msdeploy-service-url: 'http://localhost'
-        # Username used by Basic authentication to the MS Deploy Service
-        msdeploy-username: 'admin'
-        # Password used by Basic authentication to the MS Deploy Service
-        msdeploy-password: 'Sotatek@2019'
-        # The path to the source directory that will be deployed
-        source-path: ${{github.workspace}}\website
+    - name: Local IIS Deploy
+      run: |
+        "C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe" \
+        -verb:sync \
+        -source:contentPath="${{github.workspace}}\website" \
+        -dest:auto \
+        -setParam:name="IIS Web Application Name",value="${{env.SITE_NAME}}"
+
