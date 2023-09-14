@@ -50,7 +50,8 @@ jobs:
       run: dotnet test --no-build --verbosity normal
     # Publish the project
     - name: Publish 
-      run: dotnet publish -c Release /p:WebPublishMethod=Package /p:PackageLocation="${{github.workspace}}\website" #-o ${{github.workspace}}\website 
+      run: dotnet publish -c Release -o ${{github.workspace}}\website 
+      #run: dotnet publish -c Release /p:WebPublishMethod=Package /p:PackageLocation="${{github.workspace}}\website"
 
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v3
