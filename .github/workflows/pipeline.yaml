@@ -54,13 +54,13 @@ jobs:
       run: dotnet test --no-build --verbosity normal
     # Publish the project
     - name: Publish 
-      run: dotnet publish -c Release -o ${{github.workspace}}\website\publish
+      run: dotnet publish -c Release -o ${{github.workspace}}\website
 
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v3
       with:
         name: publish
-        path: ${{github.workspace}}\website\publish
+        path: ${{github.workspace}}\website
 
   deploy:
     permissions:
@@ -75,7 +75,7 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: publish
-        path: ${{github.workspace}}\website\publish
+        path: ${{github.workspace}}\website
         
     - name: IIS Deploy
       uses: cschleiden/webdeploy-action@v1
@@ -83,4 +83,4 @@ jobs:
         # IIS website name
         webSiteName: 'mitac'
         # The path to the source directory that will be deployed
-        package: ${{github.workspace}}\website\publish
+        package: ${{github.workspace}}\website
