@@ -78,21 +78,15 @@ jobs:
         path: ${{github.workspace}}\website
         
     - name: IIS Deploy
-      uses: rasmusbuchholdt/simply-web-deploy@2.1.0
+      uses: ChristopheLav/iis-deploy@v1.0.0
       with:
         # IIS website name
         website-name: 'mitac'
-        # IIS server computer name
-        server-computer-name: 'DESKTOP-GDCUJOQ'
-        # IIS server username
-        server-username: 'admin'
-        # IIS server password
-        server-password: 'Sotatek@2019'
-        # The source directory for payload
+        # MS Deploy Service URL
+        msdeploy-service-url: 'http://localhost'
+        # Username used by Basic authentication to the MS Deploy Service
+        msdeploy-username: 'admin'
+        # Password used by Basic authentication to the MS Deploy Service
+        msdeploy-password: 'Sotatek@2019'
+        # The path to the source directory that will be deployed
         source-path: ${{github.workspace}}\website
-        # The target directory for payload
-        target-path: 'D:\mitac\deploy\website'
-        # Delete files on the destination computer that do not exist on the source computer
-        target-delete: false
-        # Target a directory that any actions will be skipped on
-        skip-directory-path: ""
