@@ -85,7 +85,7 @@ jobs:
     - name: Manual IIS Deploy
       run : |
         C:\Windows\System32\inetsrv\appcmd stop apppool /apppool.name:"${{env.SITE_NAME}}"
-        xcopu /e /y ${{github.workspace}}\website\ D:\mitac\deploy\
+        xcopy /e /y ${{github.workspace}}\website\ D:\mitac\deploy\
         C:\Windows\System32\inetsrv\appcmd start apppool /apppool.name:"${{env.SITE_NAME}}"
       
     # - name: Local IIS Deploy
