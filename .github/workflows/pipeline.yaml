@@ -20,7 +20,7 @@ concurrency:
   cancel-in-progress: true
 jobs:
   build:
-    runs-on: self-hosted
+    runs-on: windows-latest
 
     steps:
     # Checks out the source code at the latest commit
