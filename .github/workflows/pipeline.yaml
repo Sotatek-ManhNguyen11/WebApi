@@ -56,11 +56,11 @@ jobs:
     - name: Publish 
       run: dotnet publish -c Release -o ${{github.workspace}}\website\publish
 
-    #- name: Upload artifact for deployment job
-    #  uses: actions/upload-artifact@v3
-    #  with:
-    #    name: publish
-    #    path: ${{github.workspace}}\website\publish
+    - name: Upload artifact for deployment job
+      uses: actions/upload-artifact@v3
+      with:
+        name: publish
+        path: ${{github.workspace}}\website\publish
 
   deploy:
     permissions:
@@ -71,11 +71,11 @@ jobs:
       name: 'Development'
 
     steps:
-    #- name: Download artifact from build job
-    #  uses: actions/download-artifact@v3
-    #  with:
-    #    name: publish
-    #    path: ${{github.workspace}}\website\publish
+    - name: Download artifact from build job
+      uses: actions/download-artifact@v3
+      with:
+        name: publish
+        path: ${{github.workspace}}\website\publish
         
     - name: IIS Deploy
       uses: cschleiden/webdeploy-action@v1
