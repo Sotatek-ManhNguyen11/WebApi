@@ -1,0 +1,39 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+name: mitac
+on: 
+  push:
+    branches: 
+    # Run the workflow when pushing to the develop branch
+    -  develop
+  pull_request:
+    branches:
+    # Run the workflow when pull requests in the develop branch
+    -  develop
+  # Allow running the workflow manually from the GitHub UI
+  workflow_dispatch:
+# Cancel a currently running workflow
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: self-hosted
+
+    steps:
+    # Checks out the source code at the latest commit
+    - uses: actions/checkout@v3
+    # Installs the .NET SDK on the build machine
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+    # Installs any NuGet packages required.
+    - name: Install dependencies
+      run: dotnet restore
+    # Builds the project
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+    # Runs any tests in the project
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
