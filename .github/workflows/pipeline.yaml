@@ -78,9 +78,9 @@ jobs:
         
     - name: Local IIS Deploy
       run: |
-        "C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe" \
-        -verb:sync \
-        -source:contentPath="${{github.workspace}}\website" \
-        -dest:auto \
+        "C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe" 
+        -verb:sync 
+        -source:contentPath="${{github.workspace}}\website" 
+        -dest:auto 
         -setParam:name="IIS Web Application Name",value="${{env.SITE_NAME}}"
 
