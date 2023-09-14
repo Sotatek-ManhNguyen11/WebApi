@@ -54,13 +54,13 @@ jobs:
       run: dotnet test --no-build --verbosity normal
     # Publish the project
     - name: Publish 
-      run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/publish
+      run: dotnet publish -c Release -o ${{github.workspace}}\website\publish
 
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v3
       with:
         name: publish
-        path: ${{env.DOTNET_ROOT}}/publish
+        path: ${{github.workspace}}\website\publish
 
   deploy:
     permissions:
@@ -75,7 +75,7 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: publish
-        path: ${{env.DOTNET_ROOT}}/publish
+        path: ${{github.workspace}}\website\publish
         
     - name: IIS Deploy
       uses: ChristopheLav/iis-deploy@v1
@@ -89,4 +89,4 @@ jobs:
         # Password used by Basic authentication to the MS Deploy Service
         msdeploy-password: 'Sotatek@2019'
         # The path to the source directory that will be deployed
-        source-path: ${{env.DOTNET_ROOT}}/publish
+        source-path: ${{github.workspace}}\website\publish
