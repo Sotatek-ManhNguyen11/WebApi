@@ -58,15 +58,15 @@ jobs:
 
     steps:
     - name: IIS Deploy
-      uses: ChristopheLav/iis-deploy@v1.0.0
-      #with:
+      uses: ChristopheLav/iis-deploy@v1
+      with:
         # IIS website name
-        #website-name: 
+        website-name: 'mitac'
         # MS Deploy Service URL
-        #msdeploy-service-url: 
+        msdeploy-service-url: 'http://localhost'
         # Username used by Basic authentication to the MS Deploy Service
-        #msdeploy-username: 
+        msdeploy-username: 'admin'
         # Password used by Basic authentication to the MS Deploy Service
-        #msdeploy-password: 
+        msdeploy-password: 'Sotatek@2019'
         # The path to the source directory that will be deployed
-        #source-path: 
+        source-path: ${{ github.workspace }}\website\publish
