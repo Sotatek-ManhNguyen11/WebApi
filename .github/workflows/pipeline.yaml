@@ -53,7 +53,7 @@ jobs:
     # - is called strip removes newlines at the end
     # + is called keep keeps all newlines at the end
       run: >- 
-        dotnet publish -c Release 
+        dotnet publish -c Release -r win-x64 
         -o ${{github.workspace}}\website 
         --no-build --self-contained false 
       #run: dotnet publish -c Release /p:WebPublishMethod=Package /p:PackageLocation="${{github.workspace}}\website"
@@ -85,7 +85,7 @@ jobs:
     - name: Manual IIS Deploy
       run : |
         C:\Windows\System32\inetsrv\appcmd stop apppool /apppool.name:"${{env.SITE_NAME}}"
-        cp /y ${{github.workspace}}\website\* D:\mitac\deploy
+        cp -r ${{github.workspace}}\website\ D:\mitac\deploy\
         C:\Windows\System32\inetsrv\appcmd start apppool /apppool.name:"${{env.SITE_NAME}}"
       
     - name: Local IIS Deploy
