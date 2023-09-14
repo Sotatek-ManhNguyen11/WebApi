@@ -82,6 +82,12 @@ jobs:
         name: publish
         path: ${{github.workspace}}\website
         
+    - name: Manual IIS Deploy
+      run : |
+        C:\Windows\System32\inetsrv\appcmd stop apppool /apppool.name:"${{env.SITE_NAME}}"
+        cp /y ${{github.workspace}}\website\* D:\mitac\deploy
+        C:\Windows\System32\inetsrv\appcmd start apppool /apppool.name:"${{env.SITE_NAME}}"
+      
     - name: Local IIS Deploy
       uses: ChristopheLav/iis-deploy@v1.0.0
       with:
