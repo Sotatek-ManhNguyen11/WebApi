@@ -32,19 +32,19 @@ jobs:
         dotnet-version: 6.0.x
     #- name: Check default dotnet version
     #  run: dotnet --version
-    - uses: actions/cache@v3
-      with:
-        path: ~/.nuget/packages
-        # Look to see if there is a cache hit for the corresponding requirements file
-        key: ${{ runner.os }}-nuget
-        restore-keys: |
-          ${{ runner.os }}-nuget
+    # - uses: actions/cache@v3
+    #   with:
+    #     path: ~/.nuget/packages
+    #     # Look to see if there is a cache hit for the corresponding requirements file
+    #     key: ${{ runner.os }}-nuget
+    #     restore-keys: |
+    #       ${{ runner.os }}-nuget
     # Installs any NuGet packages required.
     - name: Install dependencies
       run: dotnet restore
     # Builds the project
     - name: Build
-      run: dotnet build --configuration Release --no-restore
+      run: dotnet build -c Release --no-restore
     # Runs any tests in the project
     - name: Test
       run: dotnet test --no-build --verbosity normal
@@ -55,7 +55,7 @@ jobs:
       run: >- 
         dotnet publish -c Release -r win-x64 
         -o ${{github.workspace}}\website 
-        --no-build --self-contained false 
+        --no-build --self-contained 
       #run: dotnet publish -c Release /p:WebPublishMethod=Package /p:PackageLocation="${{github.workspace}}\website"
 
     - name: Upload artifact for deployment job
@@ -85,22 +85,22 @@ jobs:
     - name: Manual IIS Deploy
       run : |
         C:\Windows\System32\inetsrv\appcmd stop apppool /apppool.name:"${{env.SITE_NAME}}"
-        cp -r ${{github.workspace}}\website\ D:\mitac\deploy\
+        xcopu /e /y ${{github.workspace}}\website\ D:\mitac\deploy\
         C:\Windows\System32\inetsrv\appcmd start apppool /apppool.name:"${{env.SITE_NAME}}"
       
-    - name: Local IIS Deploy
-      uses: ChristopheLav/iis-deploy@v1.0.0
-      with:
-        # IIS website name
-        website-name: ${{env.SITE_NAME}}
-        # MS Deploy Service URL
-        msdeploy-service-url: 'http://localhost'
-        # Username used by Basic authentication to the MS Deploy Service
-        msdeploy-username: 'admin'
-        # Password used by Basic authentication to the MS Deploy Service
-        msdeploy-password: 'Sotatek@2019'
-        # The path to the source directory that will be deployed
-        source-path: ${{github.workspace}}\website
+    # - name: Local IIS Deploy
+    #   uses: ChristopheLav/iis-deploy@v1.0.0
+    #   with:
+    #     # IIS website name
+    #     website-name: ${{env.SITE_NAME}}
+    #     # MS Deploy Service URL
+    #     msdeploy-service-url: 'http://localhost'
+    #     # Username used by Basic authentication to the MS Deploy Service
+    #     msdeploy-username: 'admin'
+    #     # Password used by Basic authentication to the MS Deploy Service
+    #     msdeploy-password: 'Sotatek@2019'
+    #     # The path to the source directory that will be deployed
+    #     source-path: ${{github.workspace}}\website
       
       
 
