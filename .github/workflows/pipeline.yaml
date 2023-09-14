@@ -1,14 +1,16 @@
-# This workflow will build a .NET project
+# This workflow will build a .NET Core project
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
-name: mitac
+name: .NET Core CI/CD
 on: 
   push:
     branches: 
-    # Run the workflow when pushing to the develop branch
+    # Run the workflow when pushing to the specific branch
+    -  master
     -  develop
   pull_request:
     branches:
-    # Run the workflow when pull requests in the develop branch
+    # Run the workflow when pull requests in the specific branch
+    -  master
     -  develop
   # Allow running the workflow manually from the GitHub UI
   workflow_dispatch:
@@ -28,6 +30,15 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 6.0.x
+    - name: Check default dotnet version
+      run: dotnet --version
+    - uses: actions/cache@v3
+      with:
+        path: ~/.nuget/packages
+        # Look to see if there is a cache hit for the corresponding requirements file
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget
     # Installs any NuGet packages required.
     - name: Install dependencies
       run: dotnet restore
