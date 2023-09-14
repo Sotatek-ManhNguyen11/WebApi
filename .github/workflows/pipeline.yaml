@@ -50,7 +50,9 @@ jobs:
       run: dotnet test --no-build --verbosity normal
     # Publish the project
     - name: Publish 
-      run: |
+    # - is called strip removes newlines at the end
+    # + is called keep keeps all newlines at the end
+      run: >- 
         dotnet publish -c Release -r win-x64 
         -o ${{github.workspace}}\website 
         --no-build --self-contained true 
