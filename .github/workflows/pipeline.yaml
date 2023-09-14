@@ -50,7 +50,7 @@ jobs:
       run: dotnet test --no-build --verbosity normal
     # Publish the project
     - name: Publish 
-      run: dotnet publish -c Release --no-restore --self-contained --runtime win-x64 -o ${{github.workspace}}\website 
+      run: dotnet publish -c Release -r win-x64 -o ${{github.workspace}}\website --no-restore --self-contained
       #run: dotnet publish -c Release /p:WebPublishMethod=Package /p:PackageLocation="${{github.workspace}}\website"
 
     - name: Upload artifact for deployment job
