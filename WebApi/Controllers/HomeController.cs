@@ -3,7 +3,9 @@ using Microsoft.Extensions.Localization;
 
 namespace WebApi.Controllers
 {
-    public class HomeController : Controller
+    [ApiController]
+    [Route("[controller]")]
+    public class HomeController : ControllerBase
     {
         private readonly IStringLocalizer<HomeController> _localizer;
 
@@ -13,7 +15,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult Index()
         {
             return Ok(_localizer.GetString("Hello"));
         }
